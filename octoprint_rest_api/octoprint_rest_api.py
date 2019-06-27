@@ -10,7 +10,7 @@ class OctoPrint():
     def __init__(self, host, port, path='/'):
         self.base_url = 'http://{}:{}{}'.format(host, port, path)
         self.headers = {}
-        self.api_key = ''
+        self.api_key = None
         self.connected = False
 
     def _set_api_key(self, key):
@@ -25,7 +25,7 @@ class OctoPrint():
         """ Retrieve API key, stored locally. """
         try:
             response = requests.get(
-                self.base_url+'/plugin/appkeys/probe',
+                self.base_url+'plugin/appkeys/probe',
                 headers=self.headers,
                 timeout=timeout
             )
@@ -40,7 +40,7 @@ class OctoPrint():
         # If response status code is 204, can continue.
         if response.status_code == 204:
             response = requests.post(
-                url=self.base_url+'/plugin/appkeys/request',
+                url=self.base_url+'plugin/appkeys/request',
                 headers=self.headers,
                 json={
                     'app': app_name,
@@ -53,14 +53,14 @@ class OctoPrint():
                 app_token = response.json()['app_token']
                 # Request API key
                 response = requests.get(
-                    self.base_url+'/plugin/appkeys/request/'+app_token,
+                    self.base_url+'plugin/appkeys/request/'+app_token,
                     headers=self.headers,
                     timeout=timeout
                 )
                 # Wait for user to accept token.
                 while response.status_code == 202:
                     response = requests.get(
-                        self.base_url+'/plugin/appkeys/request/'+app_token,
+                        self.base_url+'plugin/appkeys/request/'+app_token,
                         headers=self.headers,
                         timeout=timeout
                     )
@@ -71,6 +71,8 @@ class OctoPrint():
                         return True
                     elif response.status_code == 404:
                         raise Exception("User denied access")
+            else:
+                raise Exception("User not created")
         else:
             raise Exception(
                 "Instance does not seem to support Application Keys Plugin"
