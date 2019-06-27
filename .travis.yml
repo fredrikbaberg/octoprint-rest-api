@@ -34,7 +34,12 @@ matrix:
         - name: "Tox"
           python: 3.6
           install: pip install -U tox-travis
-          script: tox
+          script:
+            - tox
+        - name: "Coverage"
+          install: pip install pytest-cov codecov asyncio nose click coveralls
+          script:
+              - make coverage
           after_success:
             - codecov
             - coveralls
