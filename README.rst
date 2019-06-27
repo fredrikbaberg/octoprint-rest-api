@@ -15,7 +15,6 @@ OctoPrint REST API
 
 .. image:: https://codecov.io/gh/fredrikbaberg/octoprint_rest_api/branch/master/graph/badge.svg
         :target: https://codecov.io/gh/fredrikbaberg/octoprint_rest_api
-        :alt: Code coverage
 
 
 
