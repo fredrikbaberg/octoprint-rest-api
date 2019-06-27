@@ -44,7 +44,7 @@ setup(
     long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='octoprint_rest_api',
-    name='octoprint_rest_api',
+    name='octoprint-rest-api-fredrikbaberg',
     packages=find_packages(include=['octoprint_rest_api']),
     setup_requires=setup_requirements,
     test_suite='tests',
