@@ -1,17 +1,44 @@
+# Config file for automatic testing at travis-ci.org
+
+# language: python
+# python:
+#   - 3.6
+#   #- 3.5
+#   #- 3.4
+#   #- 2.7
+
+# # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+# install: pip install -U tox-travis
+
+# # Command to run tests, e.g. python setup.py test
+# script: tox
+
+# # Assuming you have installed the travis-ci CLI tool, after you
+# # create the Github repo and add it to Travis, run the
+# # following command to finish PyPI deployment setup:
+# # $ travis encrypt --add deploy.password
+# # deploy:
+# #   provider: pypi
+# #   distributions: sdist bdist_wheel
+# #   user: fredrikbaberg
+# #   password:
+# #     secure: PLEASE_REPLACE_ME
+# #   on:
+# #     tags: true
+# #     repo: fredrikbaberg/octoprint_rest_api
+# #     python: 3.6
+
 language: python
-python:
-- 3.6
-- 3.5
-install: pip install -U tox-travis
-script: tox
-deploy:
-  provider: pypi
-  distributions: sdist bdist_wheel
-  user: fredrikbaberg
-  password:
-    secure: Yae4aC7FQPZuKP0cXHLQBCdw0XvyU0V+9GpOFQO17YhpSOLElZffGlWdGyC3nIjH361VMzCGg4wEF44GcgnUCGRRKUQz97A3zrIiYApWwx1l9Ea/rRjwLifipvzQX8dvrapU4slRj0Gqi4AJNiTEndUANsVsTFElg1yd9jpTPCCnU10kdUcY0edg/wrBY1+fX8863TnzKouHXS2W3Tdr+Pv1UT0fEEBPFGNU0+4HZQkgsWTog1wTzsvA2jLAISoJrzxA3MimwGhIRliyrv/Uq2rnZ2iw7YL5F/cMLPlMKq3pTY6soywTfTGg5q1lqs0LyruNzOISnkQGXaMMSH7TYhkzt3xD2BxvwtaxWl8XmODdKNbhIzqxF9erQQDdzKIFN397/O6d80XWxXphzEeGvU3WI1NAWXm+wEdps7kFh2m6l6CLElMGhjfUIeSZNzWXZvPwWi8Q9sgbYcfDObtBrksU1azmIcXnfrbm8dUb2N8nZEIIo6OHLXvSCVyZ8Y5LNi7BNFB5+pv5pk3Fg5J3VroIluSfXIHli3klPGyQvFgK3gz6ljcDINLmzWQ8Vv4HaGOj6C78yLAw5vkZNEWGNOl1YzM1B+mK2z9NKPF0NZs1jILjlhN6pgW2eaAiKg9tuEfU6wAfQHtlo6tLuU9bIBAk9BD08ZCNIRE55bHTvFE=
-  server: https://test.pypi.org/legacy/
-  on:
-    tags: true
-    repo: fredrikbaberg/octoprint_rest_api
-    python: 3.6
+matrix:
+    include:
+        - name: "Tox"
+          python: 3.6
+          install: pip install -U tox-travis
+          script: tox
+        - name: "Codecov"
+          language: python
+          python: 3.6
+          install: pip install codecov
+          script: coverage run tests/test_octoprint_rest_api.py
+          after_success:
+            - codecov

@@ -1,0 +1,2 @@
+[run]
+include=octoprint_rest_api/*
