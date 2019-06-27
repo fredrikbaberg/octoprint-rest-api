@@ -38,7 +38,7 @@ matrix:
         - name: "Codecov"
           language: python
           python: 3.6
-          install: pip install codecov
+          install: pip install -U tox-travis
           script: coverage run tests/test_octoprint_rest_api.py
           after_success:
             - codecov
