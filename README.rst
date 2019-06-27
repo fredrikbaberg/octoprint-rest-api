@@ -13,6 +13,9 @@ OctoPrint REST API
         :target: https://octoprint_rest_api.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
+.. image:: https://codecov.io/gh/fredrikbaberg/octoprint_rest_api/branch/master/graph/badge.svg
+        :target: https://codecov.io/gh/fredrikbaberg/octoprint_rest_api
+        :alt: Code coverage
 
 
 
