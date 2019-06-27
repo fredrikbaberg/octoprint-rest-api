@@ -16,6 +16,10 @@ OctoPrint REST API
 .. image:: https://codecov.io/gh/fredrikbaberg/octoprint_rest_api/branch/master/graph/badge.svg
         :target: https://codecov.io/gh/fredrikbaberg/octoprint_rest_api
 
+.. image:: https://coveralls.io/repos/github/fredrikbaberg/octoprint_rest_api/badge.svg?branch=master
+        :target: https://coveralls.io/github/fredrikbaberg/octoprint_rest_api?branch=master
+
+
 
 
 OctoPrint REST API for communicating with OctoPrint instance
