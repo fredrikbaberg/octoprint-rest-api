@@ -2,15 +2,15 @@
 
 """Console script for octoprint_rest_api."""
 import sys
-#import click
+import click
 
 
-#@click.command()
+@click.command()
 def main(args=None):
     """Console script for octoprint_rest_api."""
-    #click.echo("Replace this message by putting your code into "
-    #           "octoprint_rest_api.cli.main")
-    #click.echo("See click documentation at http://click.pocoo.org/")
+    click.echo("Replace this message by putting your code into "
+               "octoprint_rest_api.cli.main")
+    click.echo("See click documentation at http://click.pocoo.org/")
     return 0
 
 

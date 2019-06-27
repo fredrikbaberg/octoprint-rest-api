@@ -2,9 +2,9 @@
 
 """Main module."""
 
-import asyncio
 import time
 import requests
+
 
 class OctoPrint():
     def __init__(self, host, port, path='/'):
@@ -29,9 +29,13 @@ class OctoPrint():
                 timeout=timeout
             )
         except requests.exceptions.ReadTimeout:
-            raise requests.exceptions.ReadTimeout("Could not connect to server, no response")
+            raise requests.exceptions.ReadTimeout(
+                "Could not connect to server, no response"
+            )
         except requests.exceptions.ConnectionError:
-            raise requests.exceptions.ConnectionError("Could not connect to server, connection refused")
+            raise requests.exceptions.ConnectionError(
+                "Could not connect to server, connection refused"
+            )
         # If response status code is 204, can continue.
         if response.status_code == 204:
             response = requests.post(
@@ -67,7 +71,9 @@ class OctoPrint():
                     elif response.status_code == 404:
                         raise Exception("User denied access")
         else:
-            raise Exception("Instance does not seem to support Application Keys Plugin")
+            raise Exception(
+                "Instance does not seem to support Application Keys Plugin"
+            )
         return False
 
     def deregister(self):
@@ -89,7 +95,7 @@ class OctoPrint():
         except requests.exceptions.ConnectionError:
             print("Could not connect.")
         return False
-    
+
     def retrieve_appkeys(self):
         try:
             return requests.get(
@@ -99,7 +105,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_version(self):
         try:
             return requests.get(
@@ -120,7 +126,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_connection(self):
         """ Retrieve printer connections """
         try:
@@ -131,7 +137,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_files(self):
         """ Retrieve printer files """
         try:
@@ -142,7 +148,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_job(self):
         """ Retrieve printer job information """
         try:
@@ -153,7 +159,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def pause_print(self):
         """ Pause print """
         if self.connected:
@@ -186,10 +192,10 @@ class OctoPrint():
                     timeout=9
                 )
             except requests.exceptions.ConnectionError:
-                    print("Connection refused.")
-                    return False
+                print("Connection refused.")
+                return False
         return False
-        
+
     def get_printer_tool_state(self):
         """ Get printer tool state """
         try:
@@ -200,7 +206,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_bed_state(self):
         """ Get printer tool state """
         try:
@@ -211,7 +217,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_chamber_state(self):
         """ Get printer tool state """
         try:
@@ -222,7 +228,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_sd_state(self):
         """ Get printer tool state """
         try:
@@ -233,7 +239,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_profiles(self):
         """ Get printer profiles """
         try:
@@ -244,7 +250,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_printer_settings(self):
         """ Get printer profiles """
         try:
@@ -255,7 +261,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def set_printer_settings(self):
         """ Set settings for OctoPrint """
         return requests.post(
@@ -268,7 +274,7 @@ class OctoPrint():
             },
             timeout=9
         )
-        
+
     def get_slicing(self):
         """ Get slicers and slicing profiles """
         try:
@@ -279,7 +285,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_system_commands(self):
         """ Get slicers and slicing profiles """
         try:
@@ -290,7 +296,7 @@ class OctoPrint():
             ).json()
         except ValueError:
             return False
-        
+
     def get_timelapse(self):
         """ Retrieve a list of timelapses and the current config """
         try:

@@ -7,7 +7,7 @@ import pytest
 
 from click.testing import CliRunner
 
-from octoprint_rest_api import octoprint_rest_api
+#from octoprint_rest_api import octoprint_rest_api
 from octoprint_rest_api import cli
 
 
@@ -36,3 +36,10 @@ def test_command_line_interface():
     help_result = runner.invoke(cli.main, ['--help'])
     assert help_result.exit_code == 0
     assert '--help  Show this message and exit.' in help_result.output
+
+
+def test_import():
+    import asyncio
+    from octoprint_rest_api import octoprint_rest_api
+    OP = octoprint_rest_api.OctoPrint('127.0.0.1', 5000)
+    assert True, "Test"
