@@ -73,4 +73,28 @@ def test_connection_refused():
 def test_set_api_key():
     from octoprint_rest_api import OctoPrint
     OP = OctoPrint('127.0.0.1', 80)
+    assert OP._set_api_key('123')
+
+def test_deregister():
+    from octoprint_rest_api import OctoPrint
+    OP = OctoPrint('127.0.0.1', 80)
     OP._set_api_key('123')
+    assert True, OP.deregister()
+    
+def test_retrieve_appkeys():
+    from octoprint_rest_api import OctoPrint
+    OP = OctoPrint('127.0.0.1', 80)
+    OP._set_api_key('123')
+    assert True, OP.retrieve_appkeys()
+
+def test_get_printer_version():
+    from octoprint_rest_api import OctoPrint
+    OP = OctoPrint('127.0.0.1', 80)
+    OP._set_api_key('123')
+    assert True, OP.get_printer_version()
+
+def test_get_printer_status():
+    from octoprint_rest_api import OctoPrint
+    OP = OctoPrint('127.0.0.1', 80)
+    OP._set_api_key('123')
+    assert True, OP.get_printer_status()

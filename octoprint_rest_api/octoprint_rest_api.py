@@ -19,6 +19,7 @@ class OctoPrint():
         self.headers = {
             'X-Api-Key': self.api_key
         }
+        return True
 
     async def get_api_key(self, app_name, user_name=None, timeout=9):
         """ Retrieve API key, stored locally. """
