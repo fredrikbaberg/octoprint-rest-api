@@ -35,9 +35,6 @@ matrix:
           python: 3.6
           install: pip install -U tox-travis
           script: tox
-          after_success: codecov
-        - name: "Coverall"
-          python: 3.6
-          install: pip install pytest pytest-cov coveralls
-          script: pytest --cov=octoprint_rest_api/
-          after_success: coveralls
+          after_success:
+            - codecov
+            - coveralls
