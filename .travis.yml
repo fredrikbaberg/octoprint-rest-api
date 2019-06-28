@@ -28,6 +28,7 @@
 # #     repo: fredrikbaberg/octoprint_rest_api
 # #     python: 3.6
 
+sudo: false
 language: python
 matrix:
     include:
@@ -37,10 +38,18 @@ matrix:
           script:
             - tox
         - name: "Coverage"
-          install: pip install pytest-cov codecov asyncio nose click coveralls requests responses
+          install: pip install -r requirements_test.txt
           python: 3.6
           script:
               - make coverage
           after_success:
             - codecov
             - coveralls
+        - name: "PyPi Test server"
+          provider: pypi
+          user: fredrikbaberg
+          server: https://testpypi.python.org/pypi
+install:
+    - pip install tox
+script:
+    - tox

@@ -1,0 +1,8 @@
+ pytest-cov
+ codecov
+ asyncio
+ nose
+ click
+ coveralls
+ requests
+ responses
