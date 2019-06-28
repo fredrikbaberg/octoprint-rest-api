@@ -37,7 +37,8 @@ matrix:
           script:
             - tox
         - name: "Coverage"
-          install: pip install pytest-cov codecov asyncio nose click coveralls
+          install: pip install pytest-cov codecov asyncio nose click coveralls requests responses
+          python: 3.6
           script:
               - make coverage
           after_success:
