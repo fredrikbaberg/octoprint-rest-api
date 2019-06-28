@@ -15,9 +15,3 @@ matrix:
     after_success:
     - codecov
     - coveralls
-deploy:
-  provider: pypi
-  server: https://testpypi.python.org/pypi
-  user: fredrikbaberg
-  password:
-    secure: FXD2A7/Z0sQQFfu3oOaFIkdQKMaAAnLkRqGQfQO/kO8La4Kt5Q2UGjTWvmXgGt9FgY/rhi2qJzNqn5XN+S2yYdBhG7Nii6wcAoXpstu+ijj0TdXTLmLMQOs8y7YoyC3+cLXmJtgHzaefYLRfErx9xlNNiFtLj0eOnt44qQF7c2qmIWZ541WqQDLdvHRpmOsVZlIq/CqQYU6o4pbJBrM80wR0eTmcTCNwJbBXXJAZoXlel5eTgj/N4+N8EKP8ff6o15rA3pWiqhh/O7/7Vz2Mdx3dtM7MJTh23MokBtiIVyVTfC8u0jG83ZMnAnwWaP4AYMSeLFwo7FHOp/7dsgieMqpVIje7FaqvdP7Ag2OkjawHW4dx0oSofhNkujSt3/9YMpi6BDqsCojQn4pA8ymJLMvm2PIqGJmVVx7AtsEjHcoU1khFHTKJ+zhA/CvXeKOWRz0ZT28j4noqgLxl37yVhB8LG1tQIbLg2OD1GtPzebSb0WPa6FSnINgORfUFWJwMtm2F2Wja7ZQBWEs79bdBxJqYCcWA1uO+rcjlOPt3zm81I0eO451TMBZe/KbiPytBRqse+hk7JYaOFdBSt0umkA1Uvi3L1jSt48X1TdM7c6aKUaV68dfzbvZUfdNu123GI26Tl0in1/gcyI2asSX6sAtIyDv151wveo3aO2Rawes=

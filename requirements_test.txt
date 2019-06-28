@@ -1,8 +1,3 @@
- pytest-cov
- codecov
- asyncio
- nose
- click
- coveralls
- requests
- responses
+pytest-xdist
+responses
+nose

@@ -18,5 +18,4 @@ click
 requests==2.22.0
 responses
 nose
-
 coveralls
