@@ -7,6 +7,7 @@ import requests
 
 
 class OctoPrint():
+    """ Class for OctoPrint communication """
     def __init__(self, host, port, path='/'):
         self.base_url = 'http://{}:{}{}'.format(host, port, path)
         self.headers = {}
@@ -22,7 +23,16 @@ class OctoPrint():
         return True
 
     async def get_api_key(self, app_name, user_name=None, timeout=9):
-        """ Retrieve API key, stored locally. """
+        """Retrieve API key, which is then stored locally.
+
+        Parameters:
+            app_name (str): Application name in OctoPrint
+            user_name (str): User who should accept (default is anyone)
+            timeout (int): Timeout for server
+
+        Returns:
+            bool: boolean indicating success or failure.
+        """
         try:
             response = requests.get(
                 self.base_url+'plugin/appkeys/probe',
