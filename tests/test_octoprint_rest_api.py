@@ -122,58 +122,282 @@ def test_get_api_key():
         #event_loop.close()
         pass
     
+@responses.activate
+def test_deregister():
+    def request_callback_deregister(request):
+        if request.headers['X-Api-Key']:
+            return (204, {}, json.dumps({}))
+        else:
+            return (403, {}, json.dumps({}))
+    responses.add_callback(
+        responses.POST, 'http://mock:1/api/plugin/appkeys',
+        callback=request_callback_deregister,
+        content_type='application/json'
+    )
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.deregister() == True
 
+@responses.activate
+def test_retrieve_appkeys():
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    responses.add(responses.GET, 'http://mock:1/api/plugin/appkeys', json={'keys': [], 'pending': []}, status=200)
+    assert OP.retrieve_appkeys() == {'keys': [], 'pending': []}
     
-# @responses.activate
-# def test_get_api_key_request():
-#     responses.add(responses.POST, 'http://mock:1/plugin/appkeys/request', json={}, status=201)
-#     OP = OctoPrint('mock', 1)
-#     event_loop = asyncio.get_event_loop()
-#     with assert_raises(requests.exceptions.ReadTimeout):
-#         try:
-#             event_loop.run_until_complete(OP.get_api_key('test', None, 1))
-#         finally:
-#             #event_loop.close()
-#             pass
-
-
-# def test_set_api_key():
-#     from octoprint_rest_api import OctoPrint
-#     OP = OctoPrint('127.0.0.1', 80)
-#     assert OP._set_api_key('123')
-
-# def test_deregister():
-#     from octoprint_rest_api import OctoPrint
-#     OP = OctoPrint('127.0.0.1', 80)
-#     OP._set_api_key('123')
-#     assert True, OP.deregister()
+@responses.activate
+def test_get_printer_version():
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    responses.add(responses.GET, 'http://mock:1/api/version', json={'api': '0.1', 'server': '1.3.10', 'text': 'OctoPrint 1.3.10'}, status=200)
+    assert OP.get_printer_version() == {'api': '0.1', 'server': '1.3.10', 'text': 'OctoPrint 1.3.10'}
     
-# def test_retrieve_appkeys():
-#     from octoprint_rest_api import OctoPrint
-#     OP = OctoPrint('127.0.0.1', 80)
-#     OP._set_api_key('123')
-#     assert True, OP.retrieve_appkeys()
+@responses.activate
+def test_get_printer_status():
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    _status = {
+        "temperature": {
+            "tool0": {
+                "actual": 214.8821,
+                "target": 220.0,
+                "offset": 0
+            },
+            "bed": {
+                "actual": 50.221,
+                "target": 70.0,
+                "offset": 5
+            }
+        },
+        "state": {
+            "text": "Operational",
+            "flags": {
+                "operational": True,
+                "paused": False,
+                "printing": False,
+                "cancelling": False,
+                "pausing": False,
+                "sdReady": True,
+                "error": False,
+                "ready": True,
+                "closedOrError": False
+            }
+        }
+    }
+    responses.add(responses.GET, 'http://mock:1/api/printer', json=_status, status=200)
+    assert OP.get_printer_status() == _status
 
-# def test_get_printer_version():
-#     from octoprint_rest_api import OctoPrint
-#     OP = OctoPrint('127.0.0.1', 80)
-#     OP._set_api_key('123')
-#     assert True, OP.get_printer_version()
+@responses.activate
+def test_get_printer_connection():
+    _status = {
+        "current": {
+            "state": "Operational",
+            "port": "/dev/ttyACM0",
+            "baudrate": 250000,
+            "printerProfile": "_default"
+        },
+        "options": {
+            "ports": ["/dev/ttyACM0", "VIRTUAL"],
+            "baudrates": [250000, 230400, 115200, 57600, 38400, 19200, 9600],
+            "printerProfiles": [{"name": "Default", "id": "_default"}],
+            "portPreference": "/dev/ttyACM0",
+            "baudratePreference": 250000,
+            "printerProfilePreference": "_default",
+            "autoconnect": True
+        }
+    }
+    responses.add(responses.GET, 'http://mock:1/api/connection', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_connection() == _status
 
-# def test_get_printer_status():
-#     from octoprint_rest_api import OctoPrint
-#     OP = OctoPrint('127.0.0.1', 80)
-#     OP._set_api_key('123')
-#     assert True, OP.get_printer_status()
+@responses.activate
+def test_get_printer_files():
+    _status = {}
+    responses.add(responses.GET, 'http://mock:1/api/files?recursive=true', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_files() == _status
 
-# def test_get_printer_job():
-#     from octoprint_rest_api import OctoPrint
-#     OP = OctoPrint('127.0.0.1', 80)
-#     OP._set_api_key('123')
-#     assert True, OP.get_printer_job()
+@responses.activate
+def test_get_printer_job():
+    _status = {
+        "job": {
+            "file": {
+                "name": "whistle_v2.gcode",
+                "origin": "local",
+                "size": 1468987,
+                "date": 1378847754
+            },
+            "estimatedPrintTime": 8811,
+            "filament": {
+                "length": 810,
+                "volume": 5.36
+            }
+        },
+        "progress": {
+            "completion": 0.2298468264184775,
+            "filepos": 337942,
+            "printTime": 276,
+            "printTimeLeft": 912
+        },
+        "state": "Printing"
+    }
+    responses.add(responses.GET, 'http://mock:1/api/job', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_job() == _status
 
-# def test_pause_print():
-#     from octoprint_rest_api import OctoPrint
-#     OP = OctoPrint('127.0.0.1', 80)
-#     OP._set_api_key('123')
-#     assert True, OP.pause_print()
+
+@responses.activate
+def test_pause_print():
+    def request_callback_pause(request):
+        return (204, {}, json.dumps({}))
+    responses.add_callback(
+        responses.POST, 'http://mock:1/api/job',
+        callback=request_callback_pause,
+        content_type='application/json',
+    )
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    OP.connected = False
+    assert OP.pause_print() == False
+    OP.connected = True
+    assert OP.pause_print().json() == {}
+
+@responses.activate
+def test_resume_print():
+    def request_callback_resume(request):
+        return (204, {}, json.dumps({}))
+    responses.add_callback(
+        responses.POST, 'http://mock:1/api/job',
+        callback=request_callback_resume,
+        content_type='application/json',
+    )
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    OP.connected = False
+    assert OP.resume_print() == False
+    OP.connected = True
+    assert OP.resume_print().json() == {}
+
+@responses.activate
+def test_get_printer_tool_state():
+    _status = {
+        "tool0": {
+            "actual": 214.8821,
+            "target": 220.0,
+            "offset": 0
+        },
+        "tool1": {
+            "actual": 25.3,
+            "target": None,
+            "offset": 0
+        }
+    }
+    responses.add(responses.GET, 'http://mock:1/api/printer/tool', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_tool_state() == _status
+
+@responses.activate
+def test_get_printer_bed_state():
+    _status = {
+        "bed": {
+            "actual": 50.221,
+            "target": 70.0,
+            "offset": 5
+        }
+    }
+    responses.add(responses.GET, 'http://mock:1/api/printer/bed', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_bed_state() == _status
+
+@responses.activate
+def test_get_printer_chamber_state():
+    _status = {
+        "chamber": {
+            "actual": 50.221,
+            "target": 70.0,
+            "offset": 5
+        }
+    }
+    responses.add(responses.GET, 'http://mock:1/api/printer/chamber', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_chamber_state() == _status
+
+@responses.activate
+def test_get_printer_sd_state():
+    _status = {
+        "ready": True
+    }
+    responses.add(responses.GET, 'http://mock:1/api/printer/sd', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_sd_state() == _status
+
+@responses.activate
+def test_get_printer_profiles():
+    _status = {
+        "profiles": []
+    }
+    responses.add(responses.GET, 'http://mock:1/api/printerprofiles', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_profiles() == _status
+
+@responses.activate
+def test_get_printer_settings():
+    _status = {}
+    responses.add(responses.GET, 'http://mock:1/api/settings', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_printer_settings() == _status
+
+@responses.activate
+def test_set_printer_settings():
+    def request_callback_set(request):
+        return (200, {}, json.dumps({'api': {'enabled': True}, 'appearance': {
+                    'color': 'green'
+                }}))
+    responses.add_callback(
+        responses.POST, 'http://mock:1/api/settings',
+        callback=request_callback_set,
+        content_type='application/json',
+    )
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.set_printer_settings().json() == {
+        'api': {
+            'enabled': True
+        },
+        'appearance': {
+            'color': 'green'
+        }
+    }
+
+@responses.activate
+def test_get_slicing():
+    _status = {}
+    responses.add(responses.GET, 'http://mock:1/api/slicing', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_slicing() == _status
+
+@responses.activate
+def test_get_system_commands():
+    _status = {}
+    responses.add(responses.GET, 'http://mock:1/api/system/commands', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_system_commands() == _status
+
+@responses.activate
+def test_get_timelapse():
+    _status = {'config': []}
+    responses.add(responses.GET, 'http://mock:1/api/timelapse', json=_status, status=200)
+    OP = OctoPrint('mock', 1)
+    OP._set_api_key('abc')
+    assert OP.get_timelapse() == _status

@@ -83,13 +83,13 @@ class OctoPrint():
         """ Remove API key from OctoPrint instance """
         try:
             response = requests.post(
-                url=self.base_url+'/api/plugin/appkeys',
+                url=self.base_url+'api/plugin/appkeys',
                 headers=self.headers,
                 json={
                     "command": "revoke",
                     "key": self.api_key
                 },
-                timeout=9
+                timeout=1
             )
             if response.status_code == 204:
                 # Successfully removed API key.
@@ -102,7 +102,7 @@ class OctoPrint():
     def retrieve_appkeys(self):
         try:
             return requests.get(
-                self.base_url+'/api/plugin/appkeys',
+                self.base_url+'api/plugin/appkeys',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -112,7 +112,7 @@ class OctoPrint():
     def get_printer_version(self):
         try:
             return requests.get(
-                url=self.base_url+'/api/version',
+                url=self.base_url+'api/version',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -123,7 +123,7 @@ class OctoPrint():
         """ Retrieve printer status """
         try:
             return requests.get(
-                url=self.base_url+'/api/printer',
+                url=self.base_url+'api/printer',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -134,7 +134,7 @@ class OctoPrint():
         """ Retrieve printer connections """
         try:
             return requests.get(
-                url=self.base_url+'/api/connection',
+                url=self.base_url+'api/connection',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -145,7 +145,7 @@ class OctoPrint():
         """ Retrieve printer files """
         try:
             return requests.get(
-                url=self.base_url+'/api/files?recursive=true',
+                url=self.base_url+'api/files?recursive=true',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -156,7 +156,7 @@ class OctoPrint():
         """ Retrieve printer job information """
         try:
             return requests.get(
-                url=self.base_url+'/api/job',
+                url=self.base_url+'api/job',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -168,7 +168,7 @@ class OctoPrint():
         if self.connected:
             try:
                 return requests.post(
-                    url=self.base_url+'/api/job',
+                    url=self.base_url+'api/job',
                     headers=self.headers,
                     json={
                         'command': 'pause',
@@ -186,7 +186,7 @@ class OctoPrint():
         if self.connected:
             try:
                 return requests.post(
-                    url=self.base_url+'/api/job',
+                    url=self.base_url+'api/job',
                     headers=self.headers,
                     json={
                         'command': 'pause',
@@ -203,7 +203,7 @@ class OctoPrint():
         """ Get printer tool state """
         try:
             return requests.get(
-                url=self.base_url+'/api/printer/tool',
+                url=self.base_url+'api/printer/tool',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -214,7 +214,7 @@ class OctoPrint():
         """ Get printer tool state """
         try:
             return requests.get(
-                url=self.base_url+'/api/printer/bed',
+                url=self.base_url+'api/printer/bed',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -225,7 +225,7 @@ class OctoPrint():
         """ Get printer tool state """
         try:
             return requests.get(
-                url=self.base_url+'/api/printer/chamber',
+                url=self.base_url+'api/printer/chamber',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -236,7 +236,7 @@ class OctoPrint():
         """ Get printer tool state """
         try:
             return requests.get(
-                url=self.base_url+'/api/printer/sd',
+                url=self.base_url+'api/printer/sd',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -247,7 +247,7 @@ class OctoPrint():
         """ Get printer profiles """
         try:
             return requests.get(
-                url=self.base_url+'/api/printerprofiles',
+                url=self.base_url+'api/printerprofiles',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -258,7 +258,7 @@ class OctoPrint():
         """ Get printer profiles """
         try:
             return requests.get(
-                url=self.base_url+'/api/settings',
+                url=self.base_url+'api/settings',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -268,7 +268,7 @@ class OctoPrint():
     def set_printer_settings(self):
         """ Set settings for OctoPrint """
         return requests.post(
-            url=self.base_url+'/api/settings',
+            url=self.base_url+'api/settings',
             headers=self.headers,
             json={
                 'appearance': {
@@ -282,7 +282,7 @@ class OctoPrint():
         """ Get slicers and slicing profiles """
         try:
             return requests.get(
-                url=self.base_url+'/api/slicing',
+                url=self.base_url+'api/slicing',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -293,7 +293,7 @@ class OctoPrint():
         """ Get slicers and slicing profiles """
         try:
             return requests.get(
-                url=self.base_url+'/api/system/commands',
+                url=self.base_url+'api/system/commands',
                 headers=self.headers,
                 timeout=9
             ).json()
@@ -304,7 +304,7 @@ class OctoPrint():
         """ Retrieve a list of timelapses and the current config """
         try:
             return requests.get(
-                url=self.base_url+'/api/timelapse',
+                url=self.base_url+'api/timelapse',
                 headers=self.headers,
                 timeout=9
             ).json()
