@@ -4,3 +4,4 @@ nose
 coverage
 pytest-cov
 coveralls
+click
