@@ -49,6 +49,6 @@ setup(
     tests_require=test_requirements,
     extras_require=extras_requirements,
     url='https://github.com/fredrikbaberg/octoprint_rest_api',
-    version='0.0.5',
+    version='0.0.6',
     zip_safe=False,
 )
