@@ -1,55 +1,23 @@
-# Config file for automatic testing at travis-ci.org
-
-# language: python
-# python:
-#   - 3.6
-#   #- 3.5
-#   #- 3.4
-#   #- 2.7
-
-# # Command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
-# install: pip install -U tox-travis
-
-# # Command to run tests, e.g. python setup.py test
-# script: tox
-
-# # Assuming you have installed the travis-ci CLI tool, after you
-# # create the Github repo and add it to Travis, run the
-# # following command to finish PyPI deployment setup:
-# # $ travis encrypt --add deploy.password
-# # deploy:
-# #   provider: pypi
-# #   distributions: sdist bdist_wheel
-# #   user: fredrikbaberg
-# #   password:
-# #     secure: PLEASE_REPLACE_ME
-# #   on:
-# #     tags: true
-# #     repo: fredrikbaberg/octoprint_rest_api
-# #     python: 3.6
-
 sudo: false
 language: python
 matrix:
-    include:
-        - name: "Tox"
-          python: 3.6
-          install: pip install -U tox-travis
-          script:
-            - tox
-        - name: "Coverage"
-          install: pip install -r requirements_test.txt
-          python: 3.6
-          script:
-              - make coverage
-          after_success:
-            - codecov
-            - coveralls
-        - name: "PyPi Test server"
-          provider: pypi
-          user: fredrikbaberg
-          server: https://testpypi.python.org/pypi
-install:
-    - pip install tox
-script:
+  include:
+  - name: Tox
+    python: 3.6
+    install: pip install -U tox-travis
+    script:
     - tox
+  - name: Coverage
+    install: pip install -r requirements_test.txt
+    python: 3.6
+    script:
+    - make coverage
+    after_success:
+    - codecov
+    - coveralls
+deploy:
+  provider: pypi
+  server: https://testpypi.python.org/pypi
+  user: fredrikbaberg
+  password:
+    secure: FXD2A7/Z0sQQFfu3oOaFIkdQKMaAAnLkRqGQfQO/kO8La4Kt5Q2UGjTWvmXgGt9FgY/rhi2qJzNqn5XN+S2yYdBhG7Nii6wcAoXpstu+ijj0TdXTLmLMQOs8y7YoyC3+cLXmJtgHzaefYLRfErx9xlNNiFtLj0eOnt44qQF7c2qmIWZ541WqQDLdvHRpmOsVZlIq/CqQYU6o4pbJBrM80wR0eTmcTCNwJbBXXJAZoXlel5eTgj/N4+N8EKP8ff6o15rA3pWiqhh/O7/7Vz2Mdx3dtM7MJTh23MokBtiIVyVTfC8u0jG83ZMnAnwWaP4AYMSeLFwo7FHOp/7dsgieMqpVIje7FaqvdP7Ag2OkjawHW4dx0oSofhNkujSt3/9YMpi6BDqsCojQn4pA8ymJLMvm2PIqGJmVVx7AtsEjHcoU1khFHTKJ+zhA/CvXeKOWRz0ZT28j4noqgLxl37yVhB8LG1tQIbLg2OD1GtPzebSb0WPa6FSnINgORfUFWJwMtm2F2Wja7ZQBWEs79bdBxJqYCcWA1uO+rcjlOPt3zm81I0eO451TMBZe/KbiPytBRqse+hk7JYaOFdBSt0umkA1Uvi3L1jSt48X1TdM7c6aKUaV68dfzbvZUfdNu123GI26Tl0in1/gcyI2asSX6sAtIyDv151wveo3aO2Rawes=
