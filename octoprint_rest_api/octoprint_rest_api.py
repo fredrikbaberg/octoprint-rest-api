@@ -25,19 +25,13 @@ class OctoPrint():
     async def get_api_key(self, app_name, user_name=None, timeout=9):
         """Retrieve API key, which is then stored locally.
 
-        Parameters
-        ----------
-        app_name : str
-            Application name in OctoPrint
-        user_name : str, optional
-            User who should accept (default is anyone)
-        timeout : int, optional
-            Timeout for server
+        Parameters:
+            app_name (str): Application name in OctoPrint
+            user_name (str): User who should accept request (default is anyone)
+            timeout (int): Timeout for server in seconds, default is 9.
 
-        Returns
-        -------
-        bool
-            boolean indicating success or failure.
+        Returns:
+            bool: boolean indicating success or failure.
         """
         try:
             response = requests.get(
