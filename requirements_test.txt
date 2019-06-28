@@ -1,3 +1,6 @@
 pytest-xdist
 responses
 nose
+coverage
+pytest-cov
+coveralls
